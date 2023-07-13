@@ -1,12 +1,14 @@
 const { Pool } = require('pg');
 
 // Configurações da conexão
+if (process.env.NODE_ENV !== 'production') require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
+
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'sistema_cadastro',
-  password: 'Joyce000@',
-  port: 5432, // Porta padrão do PostgreSQL
+  user: process.env.POSTGRES_USER,
+  host: process.env.DB_HOST,
+  database: process.env.POSTGRES_DB,
+  password: process.env.POSTGRES_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 module.exports = {

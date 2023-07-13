@@ -12,7 +12,7 @@ class User {
     this.password = user.password;
   }
 
-  // linha do babado:
+  // Listar todos os usuários
   static async getAllUsers() {
     try {
       const query = 'SELECT * FROM users';
@@ -22,6 +22,21 @@ class User {
       return result.rows;
     } catch (error) {
       throw new Error('Error getting all users: ' + error.message);
+    }
+  }
+
+  // Method to get a user by ID
+  static async getUserById(id) {
+    try {
+      const query = 'SELECT * FROM users WHERE id = $1';
+      const values = [id];
+      const result = await db.query(query, values);
+
+      // Return the found user
+      if (result.rows.length === 0) return null;
+      return new User(result.rows[0]);
+    } catch (error) {
+      throw new Error('Error getting user by ID: ' + error.message);
     }
   }
 
@@ -46,35 +61,6 @@ class User {
       return result.rows[0];
     } catch (error) {
       throw new Error('Error creating user: ' + error.message);
-    }
-  }
-
-  // Method to get a user by ID
-  static async getUserById(id) {
-    try {
-      const query = 'SELECT * FROM users WHERE id = $1';
-      const values = [id];
-      const result = await db.query(query, values);
-
-      // Return the found user
-      if (result.rows.length === 0) return null;
-      return new User(result.rows[0]);
-    } catch (error) {
-      throw new Error('Error getting user by ID: ' + error.message);
-    }
-  }
-
-  static async getUserByUsernamePassword(username, password) {
-    try {
-      const query = 'SELECT * FROM users WHERE username = $1 and password = $2';
-      const values = [username, password];
-      const result = await db.query(query, values);
-
-      // Return the found user
-      if (result.rows.length === 0) return null;
-      return new User(result.rows[0]);
-    } catch (error) {
-      throw new Error('Error getting user by ID: ' + error.message);
     }
   }
 
@@ -109,6 +95,21 @@ class User {
       return result.rows[0];
     } catch (error) {
       throw new Error('Error updating user: ' + error.message);
+    }
+  }
+
+  // Method to get username/password
+  static async getUserByUsernamePassword(username, password) {
+    try {
+      const query = 'SELECT * FROM users WHERE username = $1 and password = $2';
+      const values = [username, password];
+      const result = await db.query(query, values);
+
+      // Return the found user
+      if (result.rows.length === 0) return null;
+      return new User(result.rows[0]);
+    } catch (error) {
+      throw new Error('Error getting user by ID: ' + error.message);
     }
   }
 
