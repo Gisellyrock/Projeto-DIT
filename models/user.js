@@ -77,6 +77,7 @@ class User {
         username,
         password,
       } = this;
+
       const query =
         'UPDATE users SET name = $2, email = $3, age = $4, website = $5, introduction = $6, username = $7, password = $8 WHERE id = $1 RETURNING *';
       const values = [
@@ -89,6 +90,7 @@ class User {
         username,
         password,
       ];
+
       const result = await db.query(query, values);
 
       // Return the updated user

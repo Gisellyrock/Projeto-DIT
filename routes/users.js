@@ -46,6 +46,9 @@ router.put('/:id', loginMidleware, async function (req, res, next) {
     if (user) {
       user.name = req.body.name;
       user.email = req.body.email;
+      user.age = req.body.age;
+      user.website = req.body.website;
+      user.introduction = req.body.introduction;
       // Atualize outros campos conforme necessário
 
       await user.updateUser();
